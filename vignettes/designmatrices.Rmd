@@ -90,7 +90,9 @@ The true values of the parameters are unknown, but are estimated in the modellin
 A positive estimate of a model parameter indicates that an explanatory variable has a positive influence on gene expression (an increasing slope), whilst a negative value indicates that the explanatory variable has a negative influence on gene expression (a decreasing slope). 
 In some cases, one may convert the `age` covariate into a factor by categorising the smaller values as "young" and larger values as "mature", and instead use the models described below.
 
-![Basic models for covariate and factor explanatory variables. LEFT: The basic model for covariates is referred to as a regression model, which is a line defined by the model parameters $\\beta_0$ the  y-intercept, and $\\beta_1$ the slope. CENTER: One of two basic models for factors is referred to as a means model, where model parameters are calculated as the mean gene expression of each level of the factor e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the mean of mutant. RIGHT: The other basic model we refer to for factors is a mean-reference model, where the first model parameter is calculated as the mean gene expression of the reference level, and subsequent parameters are calculated relative to the reference level e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the difference between mutant and wildtype. In each plot, the points represent the original data; coloured lines are used to represent expected gene expression, where dashed lines are specifically used to represent expected gene expression for non-reference levels in the mean-reference model e.g. mutant.](mockplots.png){width=800px}
+```{r basicmodels, echo=FALSE, out.width='100%', purl=FALSE, fig.cap = 'Basic models for covariate and factor explanatory variables. LEFT: The basic model for covariates is referred to as a regression model, which is a line defined by the model parameters $\\beta_0$ the  y-intercept, and $\\beta_1$ the slope. CENTER: One of two basic models for factors is referred to as a means model, where model parameters are calculated as the mean gene expression of each level of the factor e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the mean of mutant. RIGHT: The other basic model we refer to for factors is a mean-reference model, where the first model parameter is calculated as the mean gene expression of the reference level, and subsequent parameters are calculated relative to the reference level e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the difference between mutant and wildtype. In each plot, the points represent the original data; coloured lines are used to represent expected gene expression, where dashed lines are specifically used to represent expected gene expression for non-reference levels in the mean-reference model e.g. mutant.'}
+knitr::include_graphics(here::here("vignettes", "mockplots.pdf"))
+```
 
 ## Means model for factors
 
@@ -325,7 +327,9 @@ If the estimated parameters are not of direct interest, a *contrast matrix* can 
 Combining multiple contrasts, each column in the contrast matrix represents a single contrast, and has rows associated with columns in the corresponding design matrix (Figure \@ref(fig:matrices)).
 Using the R programming language, we code for design matrices using the `model.matrix` function from the **stats** package, and contrast matrices using the `makeContrasts` function from the **limma** package. To learn more about these functions, one can bring up associated help pages by typing `?stats::model.matrix` and `?limma::makeContrasts` in the R console.
 
-![The structure of design and contrast matrices.](mockmatrices.png){width=600px}
+```{r matrices, echo=FALSE, out.width='100%', purl=FALSE, fig.cap = 'The structure of design and contrast matrices.'}
+knitr::include_graphics(here::here("vignettes", "mockmatrices.pdf"))
+```
 
 ## Design matrices with and without intercept term
 
