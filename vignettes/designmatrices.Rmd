@@ -1,5 +1,5 @@
 ---
-title: "A Guide to Creating Design Matrices for Gene Expression Experiments"
+title: "A guide to creating design matrices for gene expression experiments"
 author: 
   - name: Charity W Law
     affiliation: The Walter and Eliza Hall Institute of Medical Research, Parkville, 3052, Australia; Department of Medical Biology, The University of Melbourne, Parkville, 3010, Australia.
@@ -17,7 +17,7 @@ abstract: Differential expression analysis of genomic data types, such as RNA-se
 keywords: Design matrix, model matrix, contrast matrix, statistical models, gene expression analysis.
 date: 17 November 2020
 vignette: >
-  %\VignetteIndexEntry{A Guide to Creating Design Matrices for Gene Expression Experiments (English version)}
+  %\VignetteIndexEntry{A guide to creating design matrices for gene expression experiments (English version)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: main.bib
@@ -91,7 +91,7 @@ A positive estimate of a model parameter indicates that an explanatory variable 
 In some cases, one may convert the `age` covariate into a factor by categorising the smaller values as "young" and larger values as "mature", and instead use the models described below.
 
 ```{r basicmodels, echo=FALSE, out.width='100%', purl=FALSE, fig.cap = 'Basic models for covariate and factor explanatory variables. LEFT: The basic model for covariates is referred to as a regression model, which is a line defined by the model parameters $\\beta_0$ the  y-intercept, and $\\beta_1$ the slope. CENTER: One of two basic models for factors is referred to as a means model, where model parameters are calculated as the mean gene expression of each level of the factor e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the mean of mutant. RIGHT: The other basic model we refer to for factors is a mean-reference model, where the first model parameter is calculated as the mean gene expression of the reference level, and subsequent parameters are calculated relative to the reference level e.g. $\\beta_1$ represents the mean expression for wildtype and $\\beta_2$ represents the difference between mutant and wildtype. In each plot, the points represent the original data; coloured lines are used to represent expected gene expression, where dashed lines are specifically used to represent expected gene expression for non-reference levels in the mean-reference model e.g. mutant.'}
-knitr::include_graphics(here::here("vignettes", "mockplots.pdf"))
+knitr::include_graphics(here::here("vignettes", "mockplots.png"))
 ```
 
 ## Means model for factors
@@ -147,7 +147,7 @@ On the other hand, `mutant` is equal to 1 when determining the expected expressi
 \text{expression} = \beta_1 + \beta_2 \qquad \text{for mutant.}
 \end{equation*}
 Expected gene expression for wildtype is represented directly by the first model parameter, $\beta_1$, and depicted as a solid line in Figure \@ref(fig:basicmodels).
-Whilst the expected gene expression for mutant is calculated as the sum of both parameters, and represented by a dashed line in in Figure \@ref(fig:basicmodels).
+Whilst the expected gene expression for mutant is calculated as the sum of both parameters, and represented by a dashed line in Figure \@ref(fig:basicmodels).
 Like the means model, the model demonstrated here is a regression model in itself. 
 We, however, refer to this model specifically as a *mean-reference model* to distinguish it from the general model form that we use for covariate explanatory variables.
 The means model and the mean-reference model are equivalent models that differ in parameterisation, such that the form of the model is different but one could obtain equivalent values for the expected gene expression of wildtype and mutant from both models.
@@ -157,52 +157,9 @@ The means model and the mean-reference model are equivalent models that differ i
 The terminology and concepts covered in this section are summarised in the table below, in the context of modelling gene expression data. 
 The table also extends to some definitions and descriptions covered later in the article, and is a useful resource to refer to from time-to-time.
 
-\begin{tabular}{|p{3cm}|p{10.2cm}|}
-\hline
-\textbf{Term} & \textbf{Description} \\
-\hline
-Response variable 
-  & Gene expression, e.g. log-CPM values. \\
-Explanatory variable
-  & Variable that influences gene expression. \\
-Statistical model 
-  & Used to describe the relationship between response and explanatory variables. \\
-Model parameters 
-  & Of statistical models, unknown but estimable values that describe the direction and magnitude with which explanatory variables influence gene expression.\\
-Design matrix 
-  & Used to define the form of a statistical model and to store observed values of the explanatory variable(s). Used in the computation process to estimate model parameters.\\
-Contrast matrix 
-  & Used in conjunction with a design matrix to calculate specific values of interest between estimated parameters.\\
-Covariate 
-  & Explanatory variable that is numerical in nature, e.g. age. \\
-Y-intercept 
-  & Point at which a model prediction crosses the y-axis.\\
-Slope 
-  & Rate of change for a model e.g. the change in gene expression per unit increase of a covariate.\\
-Regression model 
-  &  Our reference to statistical models for covariates. \\
-Factor 
-  & Explanatory variable that is categorical in nature, e.g. genotype. \\
-Levels 
-  & Unique values within a factor, e.g. wildtype or mutant.  \\
-Means model 
-  & Our reference to statistical models for factors where parameters are calculated as the mean of each factor level.\\
-Contrasts 
-  & Linear combinations of estimated parameters. A contrast matrix is made up of individual contrasts. \\
-Mean-reference model 
-  & Our reference to statistical models for factors where parameters are calculated as the mean reference level, and relative means for subsequent levels. \\
-Fitted model 
-  & The statistical model written with estimates of the model parameters. In our figures, we draw the fitted model (expected gene expression) along with the data points (observed gene expression) to give an idea of how well the fitted model represents the relationship between response and explanatory variables.\\
-Additive effect
-  & When the combined effect of two factors equals the sum of the two individual effects, e.g. if the estimated effect of Group A is $\kappa$ and the estimated effect of sequencing on lane I is $\tau$, then a sample in Group A that is sequenced on lane I has an expected expression of $\kappa + \tau$ if the two factors have an additive effect.\\
-Interaction effect
-  & When the combined effect of two factors does not equal the sum of the two individual effects, e.g. for the example above, a sample in Group A that is sequenced on lane I has an expected expression of $\kappa + \tau + \delta$ if the two factors have an interaction effect, where $\delta$ can be a positive or negative number.\\
-Nested factors
-  & A factor is considered to be nested within a second factor, e.g. \textsf{group} is nested within \textsf{batch}, if different sets of its levels can be found in each level of the second factor, e.g. group A and group B are processed in batch B1 and group C and group D are processed in batch B2.\\
-Mixed effects models
-  & A statistical model that contains both fixed and random effects, where random effects are usually not of interest to the study at hand.\\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table1.png"))
+```
 
 
 # Overview of models fitted
@@ -217,17 +174,9 @@ Associated sections are marked with an asterisk if the design matrix cannot be s
 This section describes and compares models that are coded with and without an intercept term for covariates and factors. 
 It also shows the fundamental elements for computing differences between model parameters using contrasts and contrast matrices.
 
-\begin{tabular}{ |p{3.2cm}|p{5.7cm}|p{4.2cm}| }
-\hline
-\textbf{Explanatory variables} & \textbf{Design matrix} & \textbf{Section} \\
-\hline
-age & model.matrix($\sim$age) & Covariates: With intercept   \\
-& model.matrix($\sim$0+age) & Covariates: Without intercept  \\
-\hline
-group$_{HEALTHY, SICK}$ & model.matrix($\sim$group) & Factors: With intercept  \\
-  & model.matrix($\sim$0+group) & Factors: Without intercept \\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table2.png"))
+```
 
 ## Study of treatments and control
 
@@ -236,29 +185,17 @@ The example here represents a study design that is very common in practice, wher
 Comparisons between the levels are computed using two alternative design matrices. 
 In this section, we also look at more complex set ups for contrasts to compute comparisons that may be of interest.
     
-\begin{tabular}{ |p{3.2cm}|p{5.7cm}|p{4.2cm}| }
-\hline
-\textbf{Explanatory variables} & \textbf{Design matrix} & \textbf{Section} \\
-\hline
-treatment$_{CTL, I, II, III}$ & model.matrix($\sim$treatment)  & Treatment versus control   \\
-& model.matrix($\sim$0+treatment) & All pairwise comparisons \\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table3.png"))
+```
 
 ## Study of interactions and additivity of treatments
 
 In this section we consider the effect of combining two separate treatments. Our first example looks at the interactivity of the treatments using a model from the previous section, which has a single treatment factor. We then show an alternative method to calculate the same estimates using a two factor model.
     
-\begin{tabular}{ |p{3.2cm}|p{5.7cm}|p{4.2cm}| }
-\hline
-\textbf{Explanatory variables} & \textbf{Design matrix} & \textbf{Section} \\
-\hline
-treat1$_{NO, YES}$ and & model.matrix($\sim$treat1*treat2)  & Interactions using a two- \\
-treat2$_{NO, YES}$ & & factor model \\
- & model.matrix($\sim$treat1+treat2)  & Additivity using a two-factor \\
-& & model \\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table4.png"))
+```
 
 ## Studies with multiple factors
 
@@ -266,53 +203,18 @@ This section looks at studies with multiple factors.
 It includes study designs that are more complex in nature and describes the approaches one can take to examine the differences of interest.
 The section covers studies with nested factors and the fitting of mixed effects models.
 
-\begin{tabular}{ |p{3.2cm}|p{5.7cm}|p{4.2cm}| }
-\hline
-\textbf{Explanatory variables} & \textbf{Design matrix} & \textbf{Section} \\
-\hline
-tissue$_{LUNG, BRAIN}$ & model.matrix($\sim$0+group)  & Conversion to a single factor  \\
-and cells$_{B, T}$  & \textit{with} group$_{LUNG\_B, BRAIN\_B, LUNG\_T, BRAIN\_T}$ & \\
-\hline
-group$_{A, B}$, lane$_{L1, L2}$ & model.matrix($\sim$0+group+lane+technician) & Accounting for factors that \\
-and technician$_{I,II}$ & & are not of interest  \\
-\hline
-group$_{A, B}$ and batch$_{B1, B2}$ & \textit{Check rank of design matrix} & Nested factors and matrices \\
-& & without full rank* \\
-\hline
-treatment$_{X, Y}$ and & \textit{Model mouse IDs, then add columns} & Time series experiment with \\
-timepoint$_{T1, T2}$ with &  \textit{representing timepoint T2 for} & repeated mouse measurements \\
-repeated measurements  & \textit{both treatments} & nested within treatments* \\
-\hline
-treatment$_{X, Y}$ and  & model.matrix($\sim$0+group) & Treating factors that are not \\
-timepoint$_{T1, T2}$  with & \textit{with} group$_{X\_T1, X\_T2, Y\_T1, Y\_T2}$, & of direct interest as random \\
-repeated measurements & \textit{and mouse ID as random effect} & effects* \\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table5.png"))
+```
 
 ## Studies with covariates
 
 In this section, we look at explanatory variables that are covariates rather than factors. 
 We begin with fitting some simple models and work up towards more complex ones such as the fitting of cyclical models.
 
-\begin{tabular}{ |p{3.2cm}|p{5.7cm}|p{4.2cm}| }
-\hline
-\textbf{Explanatory variables} & \textbf{Design matrix} & \textbf{Section} \\
-\hline
-treatment$_{X, Y}$ and time & model.matrix($\sim$0+treatment*time)  & Combination with factor \\
- &  & variable \\
-\hline
-time & model.matrix($\sim$time) & Linear time series \\
-\hline
-time & model.matrix($\sim$poly(time, degree=2, & Quadratic time series\\
- & raw=TRUE)) & \\
-\hline
-time & model.matrix($\sim$poly(time, degree=3, & Cubic time series \\
-& raw=TRUE))  & \\
-\hline
-time & model.matrix($\sim$time+sinphase+cosphase) & Cyclical models* \\
-  & model.matrix($\sim$sinphase+cosphase) & Cyclical models* \\
-\hline
-\end{tabular}
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics(here::here("vignettes", "Table6.png"))
+```
 
 # Design and contrast matrices
 
@@ -328,7 +230,7 @@ Combining multiple contrasts, each column in the contrast matrix represents a si
 Using the R programming language, we code for design matrices using the `model.matrix` function from the **stats** package, and contrast matrices using the `makeContrasts` function from the **limma** package. To learn more about these functions, one can bring up associated help pages by typing `?stats::model.matrix` and `?limma::makeContrasts` in the R console.
 
 ```{r matrices, echo=FALSE, out.width='100%', purl=FALSE, fig.cap = 'The structure of design and contrast matrices.'}
-knitr::include_graphics(here::here("vignettes", "mockmatrices.pdf"))
+knitr::include_graphics(here::here("vignettes", "mockmatrices.png"))
 ```
 
 ## Design matrices with and without intercept term
@@ -371,8 +273,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design3>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "x")
 plot(age, expression, pch=16, ylab="", xlab="", xlim=c(0,7), ylim=c(0,7))
 abline(fit$coef[1], fit$coef[2], col=col.fit, lty=1)
@@ -394,7 +296,7 @@ We can write our statistical model using the estimated model parameters to give 
 The fitted model can be written as $E(y)=$ `r fit$coef[1]` $+$ `r fit$coef[2]`$x$, with $y$ representing expression of the gene, $E(y)$ representing the expected gene expression and $x$ representing age.
 
 ```{r age, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by an age covariate, which is denoted as $x$ in the model and plot. This particular model includes an intercept term so that the model (line) has flexibility in intersecting the y-axis at any point. MODEL: The fitted model in written form, where $y$ represents gene expression and $E(y)$ expected gene expression. Estimated model parameters are highlighted in colour. MATRIX: R input and output for the associated design matrix, with the colour of column names (model parameters) matching that of the estimated parameters above. For simplicity, "assign" and "contrasts" attributes of the design matrix are not displayed in our figures (see `?stats::model.matrix\' for more). PLOT: Observed data points are drawn together with the fitted model representing expected gene expression. Where appropriate, aspects of the fitted model are drawn in a colour that matches associated parameter estimates.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -416,8 +318,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design4>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x")
 plot(age, expression, pch=16, ylab="", xlab="", xlim=c(0,7), ylim=c(0,7))
 abline(0, fit$coef[1], col=col.fit, lty=1)
@@ -435,7 +337,7 @@ The slope of the line can be estimated to be `r fit$coef[1]`, such that gene exp
 The fitted model is written as $E(y)=$ `r fit$coef[1]`$x$.
 
 ```{r agenoint, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression modelled by an age covariate, where the model (line) must intersect the y-axis at the zero-point. This restriction is due to the design matrix set up which excludes the intercept term.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -480,8 +382,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design5>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "x")
 plot(as.numeric(group), expression, pch=16, ylab="", xlab="", xlim=c(0,3), ylim=c(0,7), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -507,7 +409,7 @@ The indicator variable, or $x$, takes the value of 1 when calculating the expect
 In other words, $E(y)=$ `r fit$coef[1]` for healthy mice and $E(y)=$ `r sum(fit$coef)` for sick mice.
 
 ```{r group, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a group factor, where $x$ is an indicator variable for sick mice ($x=1$ for sick mice, and $x=0$ otherwise). The associated design matrix includes an intercept term, where healthy mice acts as the reference level. The expected gene expression of non-reference levels, e.g. that of sick mice, are represented by dashed lines in the plot.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -529,8 +431,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design6>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2")
 plot(as.numeric(group), expression, pch=16, ylab="", xlab="", xlim=c(0,3), ylim=c(0,7), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -552,7 +454,7 @@ Thus, the fitted model for expected gene expression can be written as $E(y)=$ `r
 In other words, $E(y)=$ `r fit$coef[1]` for healthy mice and $E(y)=$ `r fit$coef[2]` for sick mice.
 
 ```{r groupmeans, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a group factor, where $x_1$ is an indicator variable for healthy mice ($x_1=1$ for healthy; $0$ otherwise), and $x_2$ is an indicator variable for sick mice ($x_2=1$ for sick; $0$ otherwise). The associated design matrix excludes an intercept term.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -635,8 +537,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design7>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "x1+", round(fit$coef[3],2), "x2+", round(fit$coef[4],2), "x3")
 plot(as.numeric(treatment), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -670,7 +572,7 @@ In other words, $x_1=1$ for treatment I, $x_2=1$ for treatment II, and $x_3=1$ f
 The $x$'s are equal to 0 elsewhere. 
 
 ```{r treatment, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a treatment factor. The design matrix that is used includes an intercept term which represents the mean gene expression of the control group, or the reference level in the treatment factor. Other levels in the factor have mean gene expression represented relative to the control group. This means that the second to fourth parameters in the mean-reference model represent gene expression differences between treatment groups and the control group. The $x$\'s in the model are indicator variables for treatment groups, with $x_1=1$ for treatment I, $x_2=1$ for treatment II, and $x_3=1$ for treatment III.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -692,8 +594,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design8>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x0+", round(fit$coef[2],2), "x1+", round(fit$coef[3],2), "x2+", round(fit$coef[4],2), "x3")
 plot(as.numeric(treatment), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -742,7 +644,7 @@ In such a way, differences between treatments or between treatments and control 
 The difference in mean gene expression is estimated as `r fit$coef[3]-fit$coef[1]` for treatment II versus control, `r fit$coef[4]-fit$coef[1]` for treatment III versus control, `r fit$coef[3]-fit$coef[2]` for treatment II versus I, `r fit$coef[4]-fit$coef[2]` for treatment III versus I, and `r fit$coef[4]-fit$coef[3]` for treatment III versus II.
 
 ```{r treatmentmeans, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a treatment factor. The design matrix that is used excludes the intercept term so that the associated model is a means model. In other words, the mean gene expression of each level in `treatment\' is represented by a parameter in the model. The $x$\'s in the model are indicator variables for control and treatment groups, with $x_0=1$ for control, $x_1=1$ for treatment I, $x_2=1$ for treatment II, and $x_3=1$ for treatment III.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -868,8 +770,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design9>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "x1+", round(fit$coef[3],2), "x2+", round(fit$coef[4],2), "x1x2")
 plot(as.numeric(treatment), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -896,7 +798,7 @@ The interaction model fitted here can be written as $E(y)=$ `r fit$coef[1]` + `r
 Specifically, the fourth term in the model, the interaction term, is only included in the presence of both treatments, such that $x_1 x_2=1$ but is 0 elsewhere. 
 
 ```{r twotreats, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a two factors representing treatment I and treatment II. The design matrix that is used includes an interaction term in the last column, and we refer to the associated model as an interaction model. The interaction term can be used to indicates whether the combined administration of treatments I and II have an additive effect (interaction term equal to zero), have a synergistic effect (interaction term has a positive value), or have a repressive effect (interaction term has a negative value). In this example, the interactive effect is estimated as 0.82. The $x$\'s in the model are indicator variables for treatment I and treatment II, where $x_1x_2$ is only equal to 1 if both treatments are present.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -918,8 +820,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design10>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "x1+", round(fit$coef[3],2), "x2")
 plot(as.numeric(treatment), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -952,7 +854,7 @@ This is not unexpected since fewer parameters are used to model the relationship
 Even so, the additive model may be preferred for its simple interpretation and thus may be more applicable to some studies. 
 
 ```{r twotreatsadd, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a two factors representing treatment I and treatment II. The design matrix that is used excludes the interaction term, and we refer to the associated model as an additive model. This means that a combined treatment is assumed to have the additive effects of individual treatment I and treatment II effects. The $x$\'s in the model are indicator variables for treatment I and treatment II.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1027,8 +929,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design11>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2+", round(fit$coef[3],2), "x3+", round(fit$coef[4],2), "x4")
 plot(as.numeric(group), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -1054,7 +956,7 @@ B-cells and T-cells differ by `r C[3]` in the lung, and `r C[4]` in the brain.
 Lung samples and brain samples differ by `r C[5]` in B-cells, and by `r C[6]` in T-cells.
 
 ```{r tissuecell, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a single group factor using a design matrix that excludes the intercept term. The group factor is converted from two factors representing tissue samples and cell types.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1096,8 +998,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design12>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2+", round(fit$coef[3],2), "x3+", round(fit$coef[4],2), "x4+", round(fit$coef[5],2), "x5+", round(fit$coef[6],2), "x6")
 plot(jitter(as.numeric(group)), expression, pch=16, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n", type="n")
 text(jitter(as.numeric(group)), expression, label=lane, col=as.numeric(technician))
@@ -1119,7 +1021,7 @@ The first 4 columns of the design matrix are associated with parameters for the 
 Specifically, the group means are parameterised for when the samples are in lane L1 and processed by technician I. 
 
 ```{r grouplanetech, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a group factor and two additional factors that are not of interest (lane and technician). The design matrix excludes the intercept term for the first factor added to the function. Only lines reflecting the first 4 parameters are drawn in the plot, representing the mean gene expression of groups A, B, C and D in lane L1 and with handling technician I. Samples are labelled by their sequencing lane (L1 or L2), and coloured black if they are processed by technician I, yellow if they are processed by technician II.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1226,8 +1128,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design13>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2+", round(fit$coef[3],2), "x3+", round(fit$coef[4],2), "x4+", round(fit$coef[5],2), "x5+", round(fit$coef[6],2), "x6+", round(fit$coef[7],2), "x7+", round(fit$coef[8],2), "x8")
 plot(as.numeric(group), expression, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n", type="n")
 abline(h=mean(fit$coef[1:3]), col="salmon", lwd=3)
@@ -1249,7 +1151,7 @@ dev.off()
 ```
 
 ```{r repeatedids, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'We model the expected gene expression of mice that have been given either treatment X or treatment Y, with samples taken at timepoints T1 and T2. Repeated measurements are taken from mice, as indicated by the numbers in the plot, such that label "1" represents MOUSE1. A custom design matrix is created to model mouse IDs, treatment and timepoint (complete R code shown in the main article). Fitted lines are drawn in pink for treatment X, and in aqua for treatment Y. Solid lines represent expected gene expression at timepoint T1, and dashed lines for timepoint T2.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1339,8 +1241,8 @@ fit$coef
 
 ```{r, include=FALSE, echo=FALSE}
 <<design14>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2+", round(fit$coef[3],2), "x3+", round(fit$coef[4],2), "x4")
 plot(as.numeric(group), expression, ylab="", xlab="", xlim=c(0.5,4.5), ylim=c(0,6), xaxt="n", type="n")
 abline(h=fit$coef[1], col=col.fit, lty=1)
@@ -1356,7 +1258,7 @@ dev.off()
 ```
 
 ```{r repeatedidsrandom, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a mixed effects model, with treatment and timepoint (converted into a single group factor) as fixed effects and mouse IDs as the random effects. A means model is fitted to the data using a design matrix that excludes the intercept term. In the plot, data points are labelled by mouse ID.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1448,8 +1350,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design15>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "x1+", round(fit$coef[2],2), "x2+", round(fit$coef[3],2), "x1.t+", round(fit$coef[4],2), "x2.t")
 plot(time, expression, ylab="", xlab="", xlim=c(0.5,2.5), ylim=c(0,6), xaxt="n", type="n")
 text(time, expression, label=treatment)
@@ -1463,7 +1365,7 @@ dev.off()
 ```
 
 ```{r time, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by time as a covariate and treatment as a factor. In the plot, data points are labelled by treatment, and a fitted line is drawn for each of the treatments.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1540,8 +1442,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design16>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "t")
 plot(time, expression, pch=16, ylab="", xlab="", xlim=c(0.5,6.5), ylim=c(-0.5,4.5))
 time_grid <- seq(from=0, to=11, by=0.1)
@@ -1554,7 +1456,7 @@ dev.off()
 ```
 
 ```{r linear, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a time covariate, using a design matrix that includes an intercept term (linear fit).'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1582,8 +1484,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design17>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "t+", round(fit$coef[3],2), "t^2")
 plot(time, expression, pch=16, ylab="", xlab="", xlim=c(0.5,6.5), ylim=c(-0.5,4.5))
 preds <- predict(fit, newdata=list(time=time_grid))
@@ -1597,7 +1499,7 @@ peak.exprs <- fit$coef[1]+fit$coef[2]*peak.time+fit$coef[3]*peak.time^2
 ```
 
 ```{r quad, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a time covariate, using a design matrix that fits a second degree polynomial (quadratic fit).'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1656,8 +1558,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design18>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "t+", round(fit$coef[3],2), "t^2+", round(fit$coef[4],2), "t^3")
 plot(time, expression, pch=16, ylab="", xlab="", xlim=c(0.5,8.5), ylim=c(-0.5,4.5))
 preds <- predict(fit, newdata=list(time=time_grid))
@@ -1669,7 +1571,7 @@ dev.off()
 ```
 
 ```{r cubic, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled by a time covariate, using a design matrix that fits a third degree polynomial (cubic fit).'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1755,8 +1657,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design19>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "sin(pi/3 t)+", round(fit$coef[3],2), "cos(pi/3 t)")
 plot(time, expression, pch=16, ylab="", xlab="", xlim=c(0.5,10.5), ylim=c(-0.5,4.7))
 preds <- predict(fit, newdata=list(time=time_grid))
@@ -1775,7 +1677,7 @@ The parameters can be estimated as `r fit$coef[1]`, `r fit$coef[2]` and `r fit$c
 The fitted model can be written as $E(y)=$ `r fit$coef[1]` + `r fit$coef[2]` $\sin(\frac{\pi}{3}t)$ + `r fit$coef[3]` $\cos(\frac{\pi}{3}t)$, where $t$ represents the `time` covariate.
 
 ```{r cyclical, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled using sin and cos functions (complete R code shown in the main article) to give a cyclical fit.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1801,8 +1703,8 @@ fit
 
 ```{r, include=FALSE, echo=FALSE}
 <<design20>>
-plot.name <- paste0("fig", ploti, ".pdf")
-pdf(plot.name, height=5, width=5)
+plot.name <- paste0("fig", ploti, ".png")
+png(plot.name)
 model.name <- paste0("E(y)=", round(fit$coef[1],2), "+", round(fit$coef[2],2), "t+", round(fit$coef[3],2), "sin(pi/3 t)+", round(fit$coef[4],2), "cos(pi/3 t)")
 plot(time, expression, pch=16, ylab="", xlab="", xlim=c(0.5,10.5), ylim=c(0.5,6.8))
 preds <- predict(fit, newdata=list(time=time_grid))
@@ -1815,7 +1717,7 @@ dev.off()
 ```
 
 ```{r cyclicaltrend, echo=FALSE, out.width='60%', purl=FALSE, fig.cap = 'Expected gene expression is modelled using sin and cos functions (complete R code shown in the main article) to give a cyclical fit. An upwards trend in gene expression over time is also accounted for by including the time covariate in the design matrix.'}
-fig.name <- paste0("fig", ploti, ".pdf")
+fig.name <- paste0("fig", ploti, ".png")
 knitr::include_graphics(here::here("vignettes", fig.name))
 ```
 
@@ -1861,7 +1763,7 @@ CWL, GKS and MER developed and wrote the article with input from KZ (figure crea
 No competing interests were disclosed.
 
 # Grant information
-CLW was supported by a Chan Zuckerberg Initiative Essential Open Source Software for Science Program awarded to GKS and CLW.
+CWL was supported by a Chan Zuckerberg Initiative Essential Open Source Software for Science Program awarded to GKS and CWL.
 GKS was supported by NHMRC Fellowship 1154970.
 	
 # Acknowledgments
@@ -2055,5 +1957,5 @@ $$\delta_k
        \end{array}\right] .
 $$
 
-
+# References
 
