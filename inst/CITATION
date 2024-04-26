@@ -9,3 +9,15 @@ citEntry(
   url = "https://f1000research.com/articles/5-1408/v3",
   textVersion = "Law CW, Alhamdoosh M, Su S, Dong X, Tian L, Smyth GK, Ritchie ME. RNA-seq analysis is easy as 1-2-3 with limma, Glimma and edgeR [version 3; peer review: 3 approved]. F1000Research 2018, 5:1408"
 )
+
+citEntry(
+  entry = "article",
+  title = "A guide to creating design matrices for gene expression experiments",
+  author = "Charity W Law and Kathleen Zeglinski and Xueyi Dong and Monther Alhamdoosh and Gordon K Smyth and Matthew E Ritchie",
+  journal = "F1000Research",
+  volume = "9",
+  pages = "1444",
+  year = "2020",
+  url = "https://f1000research.com/articles/9-1444",
+  textVersion = "Law CW, Zeglinski K, Dong X, Alhamdoosh M, Smyth GK, Ritchie ME. A guide to creating design matrices for gene expression experiments [version 1; peer review: 2 approved]. F1000Research 2020, 9:1444"
+)
